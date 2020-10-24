@@ -1,0 +1,43 @@
+.carte {
+	top:0;
+	bottom:0;
+	right:0;
+	left:0;
+	position: fixed;
+ }
+.graph {
+	height: 300px;
+	width: 450px;
+ }
+ .titre {
+  background: rgba(22, 184, 78, 0.9);
+  border-radius: 40px;
+  text-align: center;
+  font-size: 2.5VH;
+  font-family: Verdana;
+  font-weight : bold;
+  color: white;
+  padding: 1%;
+}
+ .legend {
+  padding-left: 5px;
+  padding-right: 5px;
+  background: rgba(220, 220, 220, 0.7);
+  border-radius: 8px;
+  line-height: 25px;
+}
+.legend h2 {
+  text-align: center;
+  font-size: 110%;
+}
+.legend i {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 0 8px 0 0;
+  opacity: 0.9;
+  border: 0.5px solid black;
+}
+.logo {
+  height: 10VH;
+}
