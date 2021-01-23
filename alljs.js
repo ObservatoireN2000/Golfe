@@ -96,9 +96,9 @@
 
 //CARTE
 	var map = L.map('map', {
-		center: [47.6, -2.8],
-		zoom: 11,
-		minZoom: 11,
+		center: [47.85, -2.8],
+		zoom: 9,
+		minZoom: 9,
 		maxZoom: 16,
 		layers: [Stam, ZN2000, Etee15]
 	});
@@ -126,7 +126,9 @@
 				{ label: 'Été 2013', layer: Etee13 },
 				{ label: 'Hiver 2013', layer: Hiver13 },
 				{ label: 'Été 2015', layer: Etee15 },
-				{ label: 'Hiver 2015', layer: Hiver15 },
+				{ label: 'Hiver 2015', layer: Hiver15 },			
+				{ label: 'Été 2017', layer: Etee17 },
+				{ label: 'Hiver 2017', layer: Hiver17 },
 			]
 		},	
 		{label: '<div class="leaflet-control-layers-separator"></div>'},
@@ -187,6 +189,24 @@
 						{ label: 'Decembre', layer: de15 },								
 					]
 				},
+				{
+					label: '2017',
+					children: [								
+						{ label: '<b>Ensemble</b>', layer: an17 },
+						{ label: 'Janvier', layer: ja17 },
+						{ label: 'Fevrier', layer: fe17 },
+						{ label: 'Mars', layer: mr17 },
+						{ label: 'Avril', layer: av17 },
+						{ label: 'Mai', layer: ma17 },
+						{ label: 'Juin', layer: ju17 },		
+						{ label: 'Juillet', layer: ji17 },
+						{ label: 'Août', layer: ao17 },
+						{ label: 'Septembre', layer: se17 },
+						{ label: 'Octobre', layer: oc17 },
+						{ label: 'Novembre', layer: no17 },
+						{ label: 'Decembre', layer: de17 },								
+					]
+				},
 			]
 		},
 	];
@@ -223,6 +243,21 @@
 				layer.on({mouseover: highlightFeature,mouseout: resetHighligh,});
 			},
 		}).addTo(ZN2000).bindTooltip(function (layer) {return String('<b><center>' + layer.feature.properties.nom + '</b>' + '</br>Données disponibles :</center>Statistiques et cartes de fréquentation 2011 (maritimes uniquement), 2013 et 2015');});
+	//S2 : Rivière Laïta, pointe du Talud, étang du Loc'h et Lannénec
+		var Golfe = L.geoJson(zonesnatura , {
+			filter: function(feature, layer) {return feature.properties.nom == "Rivière Laïta, pointe du Talud, étang du Loc'h et Lannénec";},
+			style: styyle,
+			onEachFeature: function (feature, layer) {
+				layer.bindPopup('<b><center>' + feature.properties.nom + '</b></br>' + feature.properties.surf_ha + ' hectares<hr><select onchange="modification(this)"><option value="1">Nombre de participants aux manifestations terrestres</option><option value="2">Nombre de participants aux manifestations nautiques</option><option value="3">Nombre d\'embarcations aux manifestations nautiques</option><option value="4">Nombre d\'embarcations à moteurs par manifestation nautique</option><option value="5">Nombre de jours occupés par des manifestations</option><option value="6">Durée moyenne des épreuves</option><option value="7">Nombre d\'épreuves par moments de la journée</option><option value="8">Kilométrage des épreuves au sein du site et dans les communes riveraines</option></select><div class="graphi"><img class="graph" src="data/graph/S2G1.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G2.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G3.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G4.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G5.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G6.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G7.png"/></div><div class="graphi" style="display: none;"><img class="graph" src="data/graph/S2G8.png"/></div></center>', {maxWidth : 450});
+				layer.on({mouseover: highlightFeature,mouseout: resetHighligh,});
+			},
+		}).addTo(ZN2000).bindTooltip(function (layer) {return String('<b><center>' + layer.feature.properties.nom + '</b>' + '</br>Données disponibles :</center>Statistiques et cartes de fréquentation 2015 et 2017');});
+	//Autres sites
+		var Arz = L.geoJson(zonesnatura , {
+			filter: function(feature, layer) {return feature.properties.dispo == "0";},
+			style: styyle,
+			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeature,mouseout: resetHighligh,});},
+		}).addTo(ZN2000).bindTooltip(function (layer) {return String('<b><center>' + layer.feature.properties.nom + '</b>' + '</br>Pas de données disponibles</center>');});
 //FREQUENTATION
 	//Style
 		function getColor(d) {
@@ -259,6 +294,10 @@
 			style: styyyle,
 			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeaturee,mouseout: resetHighlighe,});},
 		}).addTo(Hiver15).bindTooltip(function (layer) {return String('<center><b>Hiver 2015</b></center><hr><b>'+ layer.feature.properties.part+' participants </b> pendant <b>'+ layer.feature.properties.dur + ' heures</b></br> soit une valeur pondérée de <b>' + layer.feature.properties.cor);});
+		var frr = L.geoJson(Hiv17 , {
+			style: styyyle,
+			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeaturee,mouseout: resetHighlighe,});},
+		}).addTo(Hiver17).bindTooltip(function (layer) {return String('<center><b>Hiver 2017</b></center><hr><b>'+ layer.feature.properties.part+' participants </b> pendant <b>'+ layer.feature.properties.dur + ' heures</b></br> soit une valeur pondérée de <b>' + layer.feature.properties.cor);});
 		var frr = L.geoJson(Ete11 , {
 			style: styyyle,
 			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeaturee,mouseout: resetHighlighe,});},
@@ -271,6 +310,11 @@
 			style: styyyle,
 			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeaturee,mouseout: resetHighlighe,});},
 		}).addTo(Etee15).bindTooltip(function (layer) {return String('<center><b>Été 2015</b></center><hr><b>'+ layer.feature.properties.part+' participants </b> pendant <b>'+ layer.feature.properties.dur + ' heures</b></br> soit une valeur pondérée de <b>' + layer.feature.properties.cor);});
+		var frr = L.geoJson(Ete17 , {
+			style: styyyle,
+			onEachFeature: function (feature, layer) {layer.on({mouseover: highlightFeaturee,mouseout: resetHighlighe,});},
+		}).addTo(Etee17).bindTooltip(function (layer) {return String('<center><b>Été 2017</b></center><hr><b>'+ layer.feature.properties.part+' participants </b> pendant <b>'+ layer.feature.properties.dur + ' heures</b></br> soit une valeur pondérée de <b>' + layer.feature.properties.cor);});
+
 //PARCOURS
 	//Style
 		function style(feature) {return {color: "#FF0000", weight: 1};}
@@ -489,6 +533,73 @@
 				style: style,
 				onEachFeature: comm,
 			}).addTo(de15).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+		//2017
+			var ann17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 4) == "2017";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(an17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var jan17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/01";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(ja17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var fev17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/02";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(fe17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var mar17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/03";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(mr17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var avr17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/04";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(av17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var mai17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/05";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(ma17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var jui17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/06";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(ju17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var jue17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/07";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(ji17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var aou17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/08";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(ao17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var sep17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/09";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(se15).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var oct17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/10";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(oc17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var nov17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/11";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(no17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+			var dec17 = L.geoJson(parcours, {
+				filter: function(feature, layer) {return feature.properties.date.substring(0, 7) == "2017\/12";},
+				style: style,
+				onEachFeature: comm,
+			}).addTo(de17).bindTooltip(function (layer) {return String(layer.feature.properties.nom_manif);});
+
 //LEGENDE
 	var legend = L.control({ position: "bottomleft" });
 	legend.onAdd = function(map) {
@@ -511,7 +622,7 @@
 	var titre = L.control({ position: "topcenter" });
 	titre.onAdd = function(map) {
 		var div = L.DomUtil.create("div", "titre");
-		div.innerHTML += 'Observatoire des manifestations de loisirs terrestres non motorisées et maritimes dans le site Natura 2000 du Golfe du Morbihan';
+		div.innerHTML += 'Observatoire des manifestations de loisirs terrestres non motorisées et maritimes en sites Natura 2000 du Morbihan';
 		return div;
 	};
 	titre.addTo(map);
@@ -529,4 +640,4 @@
 	L.control.scale({position: 'bottomright'}).addTo(map);
 
 //SOURCES
-	map.attributionControl.addAttribution('<a href="http://www.morbihan.gouv.fr/Services-de-l-Etat/Agriculture-environnement-amenagement-et-logement/La-direction-departementale-des-Territoires-et-de-la-Mer-DDTM" target="_blank">DDTM Morbihan</a> | by GG');
+	map.attributionControl.addAttribution('<a href="http://www.morbihan.gouv.fr/Services-de-l-Etat/Agriculture-environnement-amenagement-et-logement/La-direction-departementale-des-Territoires-et-de-la-Mer-DDTM" target="_blank">DDTM Morbihan</a>');
